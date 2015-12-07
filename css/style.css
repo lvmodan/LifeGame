@@ -1,0 +1,55 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600,700&subset=latin,cyrillic-ext);
+
+body {
+	text-align: center;
+	background-color: #fefefe;
+}
+canvas {
+	margin-bottom: 1%;
+	border: 1px;
+	border-style: solid;
+	border-radius: 8px;
+	border-color: gray;
+	background-color: white;
+}
+
+h1 {
+	font-family: 'Open Sans';
+	font-weight: 700;
+	font-size: 32px;
+}
+
+input {
+	margin-right: 0.5%;
+	font-family: 'Open Sans';
+	font-weight: 700;
+	font-size: 14px;
+	border-style: none;
+	padding: 14px 26px;
+	border-radius: 4px;
+	color: white;
+	background-color: #1abc9c;
+}
+
+input:hover {
+	cursor: pointer;
+	background-color: #16a085;
+	transition: .5s;
+}
+
+p {
+	font-family: 'Open Sans';
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.field {
+	position: fixed;
+	right: 18%;
+	top: 9%;
+}
+
+.field-btn {
+	margin-top: 10%;
+}
