@@ -1,4 +1,4 @@
-var num = 15;
+var num = 20;
 var matrix = [];
 var matrixNew = [];
 
@@ -129,3 +129,6 @@ function realValue(value) {
         return 0; 
     return value
 }
+
+var timer = setInterval(100);
+timer.
