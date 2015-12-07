@@ -1,4 +1,4 @@
-var num = 10;
+var num = 15;
 var matrix = [];
 var matrixNew = [];
 
@@ -60,8 +60,8 @@ function next_step() {
 function cleaning() {
     var canvas = document.getElementById("life");
     var context = canvas.getContext("2d");
-    fieldDrawing(canvas);
     matrixInit();
+    draw(canvas);
 }
 
 function draw(canvas) {
@@ -69,9 +69,18 @@ function draw(canvas) {
     for (var i = 0; i < num; i++)
         for (var j = 0; j < num; j++)
         {
-            if (matrix[i][j])
-                context.fillRect(x*50+1,y*50+1,48,48);
+            drawRect(canvas,i,j);
         }
+}
+
+function drawRect(canvas, x, y) {
+    var context = canvas.getContext("2d");
+    if (matrix[x][y])
+        context.fillRect(x*width+1,y*height+1,
+                           width-2, height-2);
+    else
+        context.clearRect(x*width+1,y*height+1,
+                           width-2, height-2);
 }
 
 function getMousePos(canvas, evt) {
@@ -84,55 +93,37 @@ function getMousePos(canvas, evt) {
 
 function newRect(canvas,mousePos) {
     var context = canvas.getContext("2d");
-    var x = Math.floor(mousePos.x/50);
-    var y = Math.floor(mousePos.y/50);
+    var x = Math.floor(mousePos.x/width);
+    var y = Math.floor(mousePos.y/height);
     matrix[x][y] = !matrix[x][y];
-    if (matrix[x][y])
-        context.fillRect(x*50+1,y*50+1,48,48);
-    else
-        context.clearRect(x*50+1,y*50+1,48,48);
+    drawRect(canvas, x, y);
 }
 
 function mainMech() {
-    
     for (var i =  0; i < num; i++)
         for (var j = 0; j < num; j++)
         {
             var localX = i - 1;
             var localY = j - 1;
-            matrixNew[i][j] = lifeOrDie(localX, localY);
+            matrixNew[i][j] = liveOrDie(localX, localY);
         }
-    console.log("firstly");
-    for (var i = 0; i < num; i++)
-        console.log(matrix[i].join(" "));
-    for (var i = 0; i < num; i++)
-        console.log(matrixNew[i].join(" "));
     
     for (var i = 0; i < num; i++)
         for (var j = 0; j < num; j++)
             matrix[i][j] = matrixNew[i][j];
-    
-    console.log("secondly");
-    for (var i = 0; i < num; i++)
-        console.log(matrix[i].toString());
-    for (var i = 0; i < num; i++)
-        console.log(matrixNew[i].toString());
-        
 }
     
-function lifeOrDie(x,y) {
+function liveOrDie(x,y) {
     var counter = 0;
     for (var i = 0; i < 3; i++)
         for (var j = 0; j < 3; j++)
             if (matrix[realValue(x+i)][realValue(y+j)]) counter++;
     if (matrix[x+1][y+1]) counter--;
-    
-    return (counter == 3 || 
-            (matrix[x+1][y+1] && counter == 2))
+    return (counter == 3 || (matrix[x+1][y+1] && counter == 2));
 }
 
 function realValue(value) {
-    if (value = -1)
+    if (value == -1)
         return num - 1;
     if (value == num)
         return 0; 
