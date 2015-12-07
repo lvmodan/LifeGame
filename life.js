@@ -1,21 +1,31 @@
-var matrix = new Array(10);
-var matrixNew = new Array(10);
+var num = 10;
+var matrix = [];
+var matrixNew = [];
+
+var width = 0; 
+var height = 0;
 
 function init() {
     var canvas = document.getElementById("life");
-    canvas.width = canvas.height =  500; 
+    canvas.width = canvas.height = 500; 
 	var context = canvas.getContext("2d");
-    
     
     canvas.addEventListener('click', function(evt) {
         var mousePos = getMousePos(canvas, evt);
-        newRect(canvas,mousePos);
+        newRect(canvas, mousePos);
       }, false);
     
-    num = 10; 
-    width = canvas.width/num; 
-    height = canvas.height/num;
+    width = canvas.width / num; 
+    height = canvas.height / num;
+    
+    fieldDrawing(canvas);
+    matrixInit();
+}
 
+function fieldDrawing(canvas) {
+    var context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.strokeStyle = "#000";
     for (var i = 0; i <= num; i++)
     {
         context.moveTo(i * width, 0);
@@ -25,7 +35,9 @@ function init() {
         context.lineTo(canvas.width,i * height);
     }
     context.stroke();
-    
+}
+
+function matrixInit() {
     for (var i = 0; i < num; i++)
     {
         matrix[i] = [];
@@ -41,26 +53,24 @@ function init() {
 function next_step() {
     var canvas = document.getElementById("life");
     var context = canvas.getContext("2d");
-    
-    
-    draw();
+    mainMech();
+    draw(canvas);
 }
 
-function stop() {
+function cleaning() {
     var canvas = document.getElementById("life");
     var context = canvas.getContext("2d");
-    init();
+    fieldDrawing(canvas);
+    matrixInit();
 }
 
-function draw() {
-    var canvas = document.getElementById("life");
+function draw(canvas) {
     var context = canvas.getContext("2d");
-    
     for (var i = 0; i < num; i++)
         for (var j = 0; j < num; j++)
         {
             if (matrix[i][j])
-                context.fillRect(i*50,j*50,50,50);
+                context.fillRect(x*50+1,y*50+1,48,48);
         }
 }
 
@@ -81,4 +91,50 @@ function newRect(canvas,mousePos) {
         context.fillRect(x*50+1,y*50+1,48,48);
     else
         context.clearRect(x*50+1,y*50+1,48,48);
+}
+
+function mainMech() {
+    
+    for (var i =  0; i < num; i++)
+        for (var j = 0; j < num; j++)
+        {
+            var localX = i - 1;
+            var localY = j - 1;
+            matrixNew[i][j] = lifeOrDie(localX, localY);
+        }
+    console.log("firstly");
+    for (var i = 0; i < num; i++)
+        console.log(matrix[i].join(" "));
+    for (var i = 0; i < num; i++)
+        console.log(matrixNew[i].join(" "));
+    
+    for (var i = 0; i < num; i++)
+        for (var j = 0; j < num; j++)
+            matrix[i][j] = matrixNew[i][j];
+    
+    console.log("secondly");
+    for (var i = 0; i < num; i++)
+        console.log(matrix[i].toString());
+    for (var i = 0; i < num; i++)
+        console.log(matrixNew[i].toString());
+        
+}
+    
+function lifeOrDie(x,y) {
+    var counter = 0;
+    for (var i = 0; i < 3; i++)
+        for (var j = 0; j < 3; j++)
+            if (matrix[realValue(x+i)][realValue(y+j)]) counter++;
+    if (matrix[x+1][y+1]) counter--;
+    
+    return (counter == 3 || 
+            (matrix[x+1][y+1] && counter == 2))
+}
+
+function realValue(value) {
+    if (value = -1)
+        return num - 1;
+    if (value == num)
+        return 0; 
+    return value
 }
