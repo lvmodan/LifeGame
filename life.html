@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -11,35 +10,16 @@
     <h1>Игра "Жизнь"</h1>
     <div class="field">
         <p>Размер поля</p>
-        <input class="field-btn" type="button" value="+">
-        <input class="field-btn" type="button" value="–">
+        <input class="field-btn" type="button" value="+" onclick="fieldPlus()">
+        <input class="field-btn" type="button" value="–" onclick="fieldMinus()">
     </div>
     <canvas id="life">Пора уже в этой жизни что-то менять</canvas>
     <br>
     <input type="button" src="life.js" value="СЛЕДУЮЩИЙ ХОД" onclick="next_step()">
     <input type="button" src="life.js" value="СТОП" onclick="stop()">
-    <input type="button" src="life.js" value="СТАРТ" onclick="#">
-    <input type="button" src="life.js" value="ОЧИСТИТЬ" onclick="#">
-
-    <!-- scripts goes here -->
+    <input type="button" src="life.js" value="СТАРТ" onclick="start()">
+    <input type="button" src="life.js" value="ОЧИСТИТЬ" onclick="cleaning()">
     <script>
         init();
     </script>    
-=======
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Пятнашки</title>
-    <script src="life.js"></script>
-</head>
-<body>
-    <canvas id="life">Пора уже в этой жизни что-то менять</canvas>
-    <script>
-        init();
-    </script>
-    <br>
-    <input type="button" src="life.js" value="Next step" onclick="next_step()">
-    <input type="button" src="life.js" value="Clear" onclick="cleaning()">
->>>>>>> origin/master
-</body>
 </html>
