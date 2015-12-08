@@ -1,13 +1,16 @@
-var num = 20;
+var num = 10;
 var matrix = [];
 var matrixNew = [];
 
 var width = 0; 
 var height = 0;
 
+var delay = 100;
+var timer;
+
 function init() {
     var canvas = document.getElementById("life");
-    canvas.width = canvas.height = 500; 
+    canvas.width = canvas.height = 600; 
 	var context = canvas.getContext("2d");
     
     canvas.addEventListener('click', function(evt) {
@@ -15,9 +18,7 @@ function init() {
         newRect(canvas, mousePos);
       }, false);
     
-    width = canvas.width / num; 
-    height = canvas.height / num;
-    
+    widthAndHeightReset(canvas);
     fieldDrawing(canvas);
     matrixInit();
 }
@@ -50,6 +51,11 @@ function matrixInit() {
     }
 }
 
+function widthAndHeightReset(canvas){
+    width = canvas.width / num; 
+    height = canvas.height / num;
+}
+
 function next_step() {
     var canvas = document.getElementById("life");
     var context = canvas.getContext("2d");
@@ -60,6 +66,7 @@ function next_step() {
 function cleaning() {
     var canvas = document.getElementById("life");
     var context = canvas.getContext("2d");
+    stop();
     matrixInit();
     draw(canvas);
 }
@@ -130,5 +137,35 @@ function realValue(value) {
     return value
 }
 
-var timer = setInterval(100);
-timer.
+function fieldPlus(){
+    var canvas = document.getElementById("life");
+    if (num != 70)
+        num+=10;
+    stop();
+    matrixInit();
+    widthAndHeightReset(canvas);
+    fieldDrawing(canvas);
+    draw(canvas);
+}
+
+function fieldMinus(){
+    var canvas = document.getElementById("life");
+    if (num != 10)
+        num-=10;
+    stop();
+    matrixInit();
+    widthAndHeightReset(canvas);
+    fieldDrawing(canvas);
+    draw(canvas);
+}
+
+function start(){
+    function startTimer() {
+        next_step();
+    }
+    timer = setInterval(startTimer, delay);
+}
+
+function stop(){
+    clearInterval(timer);
+}
