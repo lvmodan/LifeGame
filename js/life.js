@@ -7,10 +7,11 @@ var height = 0;
 
 var delay = 100;
 var timer;
+var isTimerOn = false;
 
 function init() {
     var canvas = document.getElementById("life");
-    canvas.width = canvas.height = 600; 
+    canvas.width = canvas.height = 500; 
 	var context = canvas.getContext("2d");
     
     canvas.addEventListener('click', function(evt) {
@@ -26,7 +27,7 @@ function init() {
 function fieldDrawing(canvas) {
     var context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.strokeStyle = "#000";
+    context.strokeStyle = "#FFF";
     for (var i = 0; i <= num; i++)
     {
         context.moveTo(i * width, 0);
@@ -82,6 +83,7 @@ function draw(canvas) {
 
 function drawRect(canvas, x, y) {
     var context = canvas.getContext("2d");
+    context.fillStyle = "#FFF";
     if (matrix[x][y])
         context.fillRect(x*width+1,y*height+1,
                            width-2, height-2);
@@ -160,12 +162,32 @@ function fieldMinus(){
 }
 
 function start(){
-    function startTimer() {
-        next_step();
+    if (!isTimerOn){
+        function startTimer() {
+            next_step();
+        }
+        timer = setInterval(startTimer, delay);
+        isTimerOn = true;
     }
-    timer = setInterval(startTimer, delay);
 }
 
 function stop(){
-    clearInterval(timer);
+    if (isTimerOn){
+        clearInterval(timer);
+        isTimerOn = false;
+    }
+}
+
+function speedUp(){
+    if (delay != 10000)
+        delay+=100;
+    stop();
+    start();
+}
+
+function speedDown(){
+    if (delay != 100)
+        delay+=100;
+    stop();
+    start();
 }
